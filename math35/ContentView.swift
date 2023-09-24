@@ -10,10 +10,27 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            HStack {
+                Text("Math")
+                Image(systemName: "plus")
+                Text("35")
+            }
+            .font(.title)
+            .foregroundColor(.mint)
+            .bold()
+            Spacer()
+            
+            //Add picker for easy, medium, hard
+            
+            //Add picker | stepper for base table, and number of questions
+            
+            //Add Text for Result
+            
+            //Show Score
+            
+            //Add Reset / play again button.
+            
+            
         }
         .padding()
     }
