@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var level = "easy"
     @State private var ttable = 2
+    @State private var numQuestions = 5
     
     var body: some View {
         VStack {
@@ -38,6 +39,7 @@ struct ContentView: View {
             .padding(.bottom)
             
             //Add picker | stepper for base table, and number of questions
+            //Show stepper for number of questions
             VStack (alignment: .leading) {
                 Section ("Table to Practice") {
                     Stepper(value: $ttable, in: 2...12, step: 1) {
@@ -45,12 +47,15 @@ struct ContentView: View {
                             .foregroundColor(.blue)
                             .padding(.leading)
                     }
+                    Stepper(value: $numQuestions, in: 5...15, step: 5) {
+                        Text("Number of Questions: \(numQuestions)")
+                            .foregroundColor(.blue)
+                            .padding(.leading)
+                    }
                 }
             }
             .bold()
             Spacer()
-            
-            //Show stepper for number of questions
             
             //Show Questions
             
