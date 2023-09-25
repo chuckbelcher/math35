@@ -11,6 +11,9 @@ struct ContentView: View {
     @State private var level = "easy"
     @State private var ttable = 2
     @State private var numQuestions = 5
+    @State private var easyNumbers = [1,2,5,10]
+    @State private var confidentNumbers = [3,4,9,11]
+    @State private var hardNumbers = [6,7,8,9,12]
     
     var body: some View {
         VStack {
