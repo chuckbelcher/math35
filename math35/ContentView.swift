@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var hard = [6,7,8,9,12]
     @State private var currentQuestion = 10
     @State private var currentAnswer = ""
+    @State private var score = 0
+    @State private var questionNumber = 0
     
     var body: some View {
         VStack {
@@ -28,6 +30,17 @@ struct ContentView: View {
             .foregroundColor(.mint)
             .bold()
             .padding(.bottom)
+            
+            HStack {
+                Button("Start Game") {startGame()}
+                    .padding(.vertical)
+                Spacer()
+                Text("Score: ")
+                Text("\(score)")
+                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+            }
+            .font(.title2)
+            .bold()
             
             //Add picker for easy, medium, hard
             VStack (alignment: .leading) {
@@ -65,34 +78,27 @@ struct ContentView: View {
             //Show Questions
             VStack (alignment: .leading) {
                 Section ("Play Your Game") {
+                    
+                    
                     HStack {
-                        //TODO: Add if ready to play and start button
-                        Button {
-                            getNumber()
-                        } label: {
-                            Text("New Question")
-                                .padding(.leading)
-                                .font(.headline)
-                            
-                        }
-                        Spacer()
                         Text("\(ttable)  X \(currentQuestion) = ")
-                            .font(.title3)
-                        
+                            .padding(.leading)
+                            .font(.largeTitle)
                         TextField("?", text: $currentAnswer)
-                            .font(.title2)
-                            .frame(width: 40)
+                            .frame(width: 80)
+                            .font(.largeTitle)
+                        Spacer()
                         Button {
                             print(currentAnswer)
                         } label: {
                             Image(systemName: "checkmark")
-                                .font(.headline)
                             Text("Check")
                                 .bold()
                             
                         }
                     }
                 }
+                .font(.title2)
                 Spacer()
 
             }
@@ -100,13 +106,12 @@ struct ContentView: View {
             .padding(.top, 20)
             
             Spacer()
-            //TODO: Add Text for Result
             
-            //TODO: Show Score
+            //TODO: Calculate Score
             
             //Add Reset / play again button
             Button {
-                print("Playing level \(level) for table \(ttable)")
+                startGame()
             } label: {
                     Text("Play Again")
                         .padding(.vertical, 20)
@@ -135,6 +140,13 @@ struct ContentView: View {
             currentQuestion = hard.randomElement() ?? 0
         }
     }
+    
+    func startGame() {
+        score = 0
+        questionNumber = 1
+        getNumber()
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
