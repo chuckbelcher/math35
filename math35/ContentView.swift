@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var currentAnswer = ""
     @State private var score = 0
     @State private var questionNumber = 0
+    @State private var counter = 0
     
     var body: some View {
         VStack {
