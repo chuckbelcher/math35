@@ -104,7 +104,7 @@ struct ContentView: View {
             
             //TODO: Show Score
             
-            //Add Reset / play again button.
+            //Add Reset / play again button
             Button {
                 print("Playing level \(level) for table \(ttable)")
             } label: {
@@ -118,8 +118,6 @@ struct ContentView: View {
                 
             }
 
-            
-            
         }
         .padding()
         .onAppear(perform: getNumber)
