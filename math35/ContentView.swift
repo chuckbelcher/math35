@@ -17,8 +17,9 @@ struct ContentView: View {
     @State private var currentQuestion = 10
     @State private var currentAnswer = ""
     @State private var score = 0
-    @State private var questionNumber = 0
-    @State private var counter = 0
+    @State private var questionNumber = 1
+    @State private var isPlaying = false
+
     
     var body: some View {
         VStack {
@@ -33,8 +34,6 @@ struct ContentView: View {
             .padding(.bottom)
             
             HStack {
-                Button("Start Game") {startGame()}
-                    .padding(.vertical)
                 Spacer()
                 Text("Score: ")
                 Text("\(score)")
@@ -57,8 +56,6 @@ struct ContentView: View {
             .bold()
             .padding(.bottom)
             
-            //Add picker | stepper for base table, and number of questions
-            //Show stepper for number of questions
             VStack (alignment: .leading) {
                 Section ("Table to Practice") {
                     Stepper(value: $ttable, in: 2...12, step: 1) {
@@ -74,56 +71,59 @@ struct ContentView: View {
                 }
             }
             .bold()
-
-            
             //Show Questions
             VStack (alignment: .leading) {
                 Section ("Play Your Game") {
                     
-                    
-                    HStack {
-                        Text("\(ttable)  X \(currentQuestion) = ")
-                            .padding(.leading)
-                            .font(.largeTitle)
-                        TextField("?", text: $currentAnswer)
-                            .frame(width: 80)
-                            .font(.largeTitle)
-                        Spacer()
-                        Button {
-                            print(currentAnswer)
-                        } label: {
-                            Image(systemName: "checkmark")
-                            Text("Check")
-                                .bold()
-                            
+                    if isPlaying {
+                        
+                        Text("Question Number:  \(questionNumber) of \(numQuestions)")
+                            .font(.headline)
+                           
+                        
+                        HStack {
+                            Text("\(ttable)  X \(currentQuestion) = ")
+                                .padding(.leading)
+                                .font(.largeTitle)
+                            TextField("?", text: $currentAnswer)
+                                .frame(width: 80)
+                                .font(.largeTitle)
+                            Spacer()
+                            Button {
+                                checkAnswer()
+                            } label: {
+                                Image(systemName: "checkmark")
+                                Text("Check")
+                                    .bold()
+                                
+                            }
+                        }
+                    } else {
+                        VStack {
+                            Text("Game Over You scored \(score) out of \(numQuestions)")
+                                .padding(.vertical, 50)
+                                .foregroundColor(.red)
+                            Button {
+                                startGame()
+                            } label: {
+                                Text("Start Game")
+                                    .padding(.vertical, 20)
+                                    .padding(.horizontal, 50)
+                                    .background(Color(.blue))
+                                    .foregroundColor(.white)
+                                    .bold()
+                                    .cornerRadius(30)
+                                
+                            }
                         }
                     }
                 }
                 .font(.title2)
                 Spacer()
-
+                
             }
             .bold()
             .padding(.top, 20)
-            
-            Spacer()
-            
-            //TODO: Calculate Score
-            
-            //Add Reset / play again button
-            Button {
-                startGame()
-            } label: {
-                    Text("Play Again")
-                        .padding(.vertical, 20)
-                        .padding(.horizontal, 50)
-                        .background(Color(.blue))
-                        .foregroundColor(.white)
-                        .bold()
-                        .cornerRadius(30)
-                
-            }
-
         }
         .padding()
         .onAppear(perform: getNumber)
@@ -146,6 +146,26 @@ struct ContentView: View {
         score = 0
         questionNumber = 1
         getNumber()
+        isPlaying = true
+    }
+    
+    func checkAnswer() {
+        //check answer
+        if Int(currentAnswer) == ttable * currentQuestion {
+            print("You answered \(currentAnswer) which is correct")
+            score += 1
+        } else {
+            print("Better luck next time")
+        }
+        
+        if questionNumber < numQuestions {
+            questionNumber += 1
+            currentAnswer = ""
+            getNumber()
+        } else {
+            currentAnswer = ""
+            isPlaying = false
+        }
     }
     
 }
